@@ -14,13 +14,21 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.zybooks.cookingrecipeapp.model.Cuisine
 import com.zybooks.cookingrecipeapp.viewmodel.CuisineListViewModel
 import androidx.lifecycle.ViewModelProvider
+import android.view.ActionMode
+import android.view.Menu
+import android.view.MenuItem
+import android.graphics.Color
 
 class CuisineActivity : AppCompatActivity(),
     CuisineDialogFragment.OnCuisineEnteredListener {
 
+    private var loadCuisineList = true
     private var cuisineAdapter = CuisineAdapter(mutableListOf())
     private lateinit var cuisineRecyclerView: RecyclerView
     private lateinit var cuisineColors: IntArray
+    private lateinit var selectedCuisine: Cuisine
+    private var selectedCuisinePosition = RecyclerView.NO_POSITION
+    private var actionMode: ActionMode? = null
     private val cuisineListViewModel: CuisineListViewModel by lazy {
         ViewModelProvider(this).get(CuisineListViewModel::class.java)
     }
@@ -31,7 +39,9 @@ class CuisineActivity : AppCompatActivity(),
 
         cuisineListViewModel.cuisineListLiveData.observe(
             this, { cuisineList ->
-                updateUI(cuisineList)
+                if (loadCuisineList) {
+                    updateUI(cuisineList)
+                }
             })
 
         cuisineColors = resources.getIntArray(R.array.cuisineColors)
@@ -51,7 +61,13 @@ class CuisineActivity : AppCompatActivity(),
     override fun onCuisineEntered(cuisineText: String) {
         if (cuisineText.isNotEmpty()) {
             val cuisine = Cuisine(0, cuisineText)
+            // Stop updateUI() from being called
+            loadCuisineList = false
+
             cuisineListViewModel.addCuisine(cuisine)
+
+            // Add subject to RecyclerView
+            cuisineAdapter.addCuisine(cuisine)
 
             Toast.makeText(this, "Added $cuisineText", Toast.LENGTH_SHORT).show()
         }
@@ -64,6 +80,7 @@ class CuisineActivity : AppCompatActivity(),
 
     private inner class CuisineHolder(inflater: LayoutInflater, parent: ViewGroup?) :
         RecyclerView.ViewHolder(inflater.inflate(R.layout.recycler_view_items, parent, false)),
+        View.OnLongClickListener,
         View.OnClickListener {
 
         private var cuisine: Cuisine? = null
@@ -71,6 +88,7 @@ class CuisineActivity : AppCompatActivity(),
 
         init {
             itemView.setOnClickListener(this)
+            itemView.setOnLongClickListener(this)
             cuisineTextView = itemView.findViewById(R.id.cuisine_text_view)
         }
 
@@ -78,9 +96,15 @@ class CuisineActivity : AppCompatActivity(),
             this.cuisine = cuisine
             cuisineTextView.text = cuisine.text
 
-            // Make the background color dependent on the length of the subject string
-            val colorIndex = cuisine.text.length % cuisineColors.size
-            cuisineTextView.setBackgroundColor(cuisineColors[colorIndex])
+            if (selectedCuisinePosition == position) {
+                // Make selected subject stand out
+                cuisineTextView.setBackgroundColor(Color.RED)
+            }
+            else {
+                // Make the background color dependent on the length of the subject string
+                val colorIndex = cuisine.text.length % cuisineColors.size
+                cuisineTextView.setBackgroundColor(cuisineColors[colorIndex])
+            }
         }
 
         override fun onClick(view: View) {
@@ -90,6 +114,63 @@ class CuisineActivity : AppCompatActivity(),
             intent.putExtra(RecipeActivity.EXTRA_CUISINE_TEXT, cuisine!!.text)
 
             startActivity(intent)
+        }
+
+        override fun onLongClick(view: View): Boolean {
+            if (actionMode != null) {
+                return false
+            }
+
+            selectedCuisine = cuisine!!
+            selectedCuisinePosition = absoluteAdapterPosition
+
+            // Re-bind the selected item
+            cuisineAdapter.notifyItemChanged(selectedCuisinePosition)
+
+            // Show the CAB
+            actionMode = this@CuisineActivity.startActionMode(actionModeCallback)
+            return true
+        }
+    }
+
+    private val actionModeCallback = object : ActionMode.Callback {
+
+        override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {
+            // Provide context menu for CAB
+            val inflater = mode.menuInflater
+            inflater.inflate(R.menu.context_menu, menu)
+            return true
+        }
+
+        override fun onPrepareActionMode(mode: ActionMode, menu: Menu): Boolean {
+            return false
+        }
+
+        override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
+            if (item.itemId == R.id.delete) {
+                // Stop updateUI() from being called
+                loadCuisineList = false
+
+                // Delete from ViewModel
+                cuisineListViewModel.deleteCuisine(selectedCuisine)
+
+                // Remove from RecyclerView
+                cuisineAdapter.removeCuisine(selectedCuisine)
+
+                // Close the CAB
+                mode.finish()
+                return true
+            }
+
+            return false
+        }
+
+        override fun onDestroyActionMode(mode: ActionMode) {
+            actionMode = null
+
+            // CAB closing, need to deselect item if not deleted
+            cuisineAdapter.notifyItemChanged(selectedCuisinePosition)
+            selectedCuisinePosition = RecyclerView.NO_POSITION
         }
     }
 
@@ -107,6 +188,32 @@ class CuisineActivity : AppCompatActivity(),
 
         override fun getItemCount(): Int {
             return cuisineList.size
+        }
+
+        fun addCuisine(cuisine: Cuisine) {
+
+            // Add the new subject at the beginning of the list
+            cuisineList.add(0, cuisine)
+
+            // Notify the adapter that item was added to the beginning of the list
+            notifyItemInserted(0)
+
+            // Scroll to the top
+            cuisineRecyclerView.scrollToPosition(0)
+        }
+
+        fun removeCuisine(cuisine: Cuisine) {
+
+            // Find subject in the list
+            val index = cuisineList.indexOf(cuisine)
+            if (index >= 0) {
+
+                // Remove the subject
+                cuisineList.removeAt(index)
+
+                // Notify adapter of subject removal
+                notifyItemRemoved(index)
+            }
         }
     }
 }
