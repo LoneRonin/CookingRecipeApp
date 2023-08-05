@@ -1,5 +1,6 @@
 package com.zybooks.cookingrecipeapp
 
+import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -14,7 +15,9 @@ import com.zybooks.cookingrecipeapp.viewmodel.RecipeListViewModel
 
 class RecipeActivity : AppCompatActivity() {
 
-    private lateinit var recipeListViewModel: RecipeListViewModel
+    private val recipeListViewModel: RecipeListViewModel by lazy {
+        ViewModelProvider(this).get(RecipeListViewModel::class.java)
+    }
     private lateinit var cuisine: Cuisine
     private lateinit var recipeList: List<Recipe>
     private lateinit var answerLabelTextView: TextView
@@ -51,11 +54,14 @@ class RecipeActivity : AppCompatActivity() {
         cuisine = Cuisine(cuisineId, cuisineText!!)
 
         // Get all questions for this subject
-        recipeListViewModel = RecipeListViewModel(application)
-        recipeList = recipeListViewModel.getRecipes(cuisineId)
-
-        // Display question
-        updateUI()
+        recipeList = emptyList()
+        recipeListViewModel.loadRecipes(cuisineId)
+        recipeListViewModel.recipeListLiveData.observe(
+            this, { recipeList ->
+                this.recipeList = recipeList
+                updateUI()
+            })
+        //recipeList = recipeListViewModel.getRecipes(cuisineId)
     }
 
     private fun updateUI() {

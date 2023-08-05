@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.zybooks.cookingrecipeapp.model.Cuisine
 import com.zybooks.cookingrecipeapp.viewmodel.CuisineListViewModel
+import androidx.lifecycle.ViewModelProvider
 
 class CuisineActivity : AppCompatActivity(),
     CuisineDialogFragment.OnCuisineEnteredListener {
@@ -20,13 +21,18 @@ class CuisineActivity : AppCompatActivity(),
     private var cuisineAdapter = CuisineAdapter(mutableListOf())
     private lateinit var cuisineRecyclerView: RecyclerView
     private lateinit var cuisineColors: IntArray
-    private lateinit var cuisineListViewModel: CuisineListViewModel
+    private val cuisineListViewModel: CuisineListViewModel by lazy {
+        ViewModelProvider(this).get(CuisineListViewModel::class.java)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cuisine)
 
-        cuisineListViewModel = CuisineListViewModel(application)
+        cuisineListViewModel.cuisineListLiveData.observe(
+            this, { cuisineList ->
+                updateUI(cuisineList)
+            })
 
         cuisineColors = resources.getIntArray(R.array.cuisineColors)
 
@@ -35,9 +41,6 @@ class CuisineActivity : AppCompatActivity(),
 
         cuisineRecyclerView = findViewById(R.id.cuisine_recycler_view)
         cuisineRecyclerView.layoutManager = GridLayoutManager(applicationContext, 2)
-
-        // Show the subjects
-        updateUI(cuisineListViewModel.getCuisines())
     }
 
     private fun updateUI(cuisineList: List<Cuisine>) {
@@ -49,7 +52,6 @@ class CuisineActivity : AppCompatActivity(),
         if (cuisineText.isNotEmpty()) {
             val cuisine = Cuisine(0, cuisineText)
             cuisineListViewModel.addCuisine(cuisine)
-            updateUI(cuisineListViewModel.getCuisines())
 
             Toast.makeText(this, "Added $cuisineText", Toast.LENGTH_SHORT).show()
         }

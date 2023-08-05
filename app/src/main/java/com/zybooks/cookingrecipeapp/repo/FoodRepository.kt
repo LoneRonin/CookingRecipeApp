@@ -1,5 +1,6 @@
 package com.zybooks.cookingrecipeapp.repo
 
+import androidx.lifecycle.LiveData
 import android.content.Context
 import androidx.room.Room
 import com.zybooks.cookingrecipeapp.model.Recipe
@@ -29,15 +30,9 @@ class FoodRepository private constructor(context: Context) {
     private val cuisineDao = database.cuisineDao()
     private val recipeDao = database.recipeDao()
 
-    init {
-        if (cuisineDao.getCuisines().isEmpty()) {
-            addStarterData()
-        }
-    }
+    fun getCuisine(cuisineId: Long): LiveData<Cuisine?> = cuisineDao.getCuisine(cuisineId)
 
-    fun getCuisine(cuisineId: Long): Cuisine? = cuisineDao.getCuisine(cuisineId)
-
-    fun getCuisines(): List<Cuisine> = cuisineDao.getCuisines()
+    fun getCuisines(): LiveData<List<Cuisine>> = cuisineDao.getCuisines()
 
     fun addCuisine(cuisine: Cuisine) {
         cuisine.id = cuisineDao.addCuisine(cuisine)
@@ -45,9 +40,9 @@ class FoodRepository private constructor(context: Context) {
 
     fun deleteCuisine(cuisine: Cuisine) = cuisineDao.deleteCuisine(cuisine)
 
-    fun getRecipe(recipeId: Long): Recipe? = recipeDao.getRecipe(recipeId)
+    fun getRecipe(recipeId: Long): LiveData<Recipe?> = recipeDao.getRecipe(recipeId)
 
-    fun getRecipes(cuisineId: Long): List<Recipe> = recipeDao.getRecipes(cuisineId)
+    fun getRecipes(cuisineId: Long): LiveData<List<Recipe>> = recipeDao.getRecipes(cuisineId)
 
     fun addRecipe(recipe: Recipe) {
         recipe.id = recipeDao.addRecipe(recipe)
