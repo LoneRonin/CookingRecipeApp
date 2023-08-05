@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Cooking Recipe App</string>
+    <string name="recipe_label">Q</string>
+    <string name="recipe_hint">Question</string>
+    <string name="answer_label">A</string>
+    <string name="answer_hint">Answer</string>
+    <string name="show_answer">Show Answer</string>
+    <string name="hide_answer">Hide Answer</string>
+    <string name="previous">Previous</string>
+    <string name="next">Next</string>
+    <string name="add">Add</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
+    <string name="update">Update</string>
+    <string name="save_recipe">Save Question</string>
+    <string name="add_cuisine">Add Subject</string>
+    <string name="recipe_deleted">Question deleted.</string>
+    <string name="recipe_added">Question added.</string>
+    <string name="recipe_updated">Question updated.</string>
+    <string name="create">Create</string>
+    <string name="cuisine">New subject?</string>
+    <string name="cancel">Cancel</string>
+    <string name="edit_recipe">Edit Question</string>
+    <string name="add_recipe">Add Question</string>
+    <string name="no_recipes">No questions exist for this subject.</string>
+    <string name="cuisine_exists">The subject "%1$s" already exists.</string>
+    <string name="recipe_number">%1$s (%2$d of %3$d)</string>
+    <string name="import_recipes">Import</string>
+    <string name="select_cuisine">Select a subject:</string>
+    <string name="undo">Undo</string>
+</resources>
