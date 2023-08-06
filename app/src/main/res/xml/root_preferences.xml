@@ -1,0 +1,20 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <SwitchPreferenceCompat
+        app:key="dark_theme"
+        app:title="@string/pref_title_theme" />
+
+    <ListPreference
+        app:defaultValue="alpha"
+        app:entries="@array/pref_cuisine_order"
+        app:entryValues="@array/pref_cuisine_order_values"
+        app:key="cuisine_order"
+        app:title="@string/pref_title_cuisine_order"
+        app:useSimpleSummaryProvider="true" />
+
+    <EditTextPreference
+        app:key="default_recipe"
+        app:title="@string/pref_title_default_recipe"
+        app:useSimpleSummaryProvider="true" />
+
+</PreferenceScreen>

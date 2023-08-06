@@ -18,6 +18,11 @@ import android.view.ActionMode
 import android.view.Menu
 import android.view.MenuItem
 import android.graphics.Color
+import androidx.preference.PreferenceManager
+
+enum class CuisineSortOrder {
+    ALPHABETIC, NEW_FIRST, OLD_FIRST
+}
 
 class CuisineActivity : AppCompatActivity(),
     CuisineDialogFragment.OnCuisineEnteredListener {
@@ -53,9 +58,37 @@ class CuisineActivity : AppCompatActivity(),
         cuisineRecyclerView.layoutManager = GridLayoutManager(applicationContext, 2)
     }
 
+    private fun getCuisinesSortOrder(): CuisineSortOrder {
+
+        // Set sort order from settings
+        val sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this)
+        val sortOrderPref = sharedPrefs.getString("cuisine_order", "alpha")
+        return when (sortOrderPref) {
+            "alpha" -> CuisineSortOrder.ALPHABETIC
+            "new_first" -> CuisineSortOrder.NEW_FIRST
+            else -> CuisineSortOrder.OLD_FIRST
+        }
+    }
+
     private fun updateUI(cuisineList: List<Cuisine>) {
         cuisineAdapter = CuisineAdapter(cuisineList as MutableList<Cuisine>)
+        cuisineAdapter.sortOrder = getCuisinesSortOrder()
         cuisineRecyclerView.adapter = cuisineAdapter
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.cuisine_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.settings) {
+            val intent = Intent(this, SettingsActivity::class.java)
+            startActivity(intent)
+            return true
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onCuisineEntered(cuisineText: String) {
@@ -176,6 +209,16 @@ class CuisineActivity : AppCompatActivity(),
 
     private inner class CuisineAdapter(private val cuisineList: MutableList<Cuisine>) :
         RecyclerView.Adapter<CuisineHolder>() {
+
+        var sortOrder: CuisineSortOrder = CuisineSortOrder.ALPHABETIC
+            set(value) {
+                when (value) {
+                    CuisineSortOrder.OLD_FIRST -> cuisineList.sortBy { it.updateTime }
+                    CuisineSortOrder.NEW_FIRST -> cuisineList.sortByDescending { it.updateTime }
+                    else -> cuisineList.sortWith(compareBy(String.CASE_INSENSITIVE_ORDER, { it.text }))
+                }
+                field = value
+            }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CuisineHolder {
             val layoutInflater = LayoutInflater.from(applicationContext)

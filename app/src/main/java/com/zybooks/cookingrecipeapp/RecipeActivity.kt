@@ -1,5 +1,10 @@
 package com.zybooks.cookingrecipeapp
 
+import com.google.android.material.snackbar.Snackbar
+import android.app.Activity
+import android.content.Intent
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.view.Menu
@@ -18,6 +23,7 @@ class RecipeActivity : AppCompatActivity() {
     private val recipeListViewModel: RecipeListViewModel by lazy {
         ViewModelProvider(this).get(RecipeListViewModel::class.java)
     }
+    private lateinit var deletedRecipe: Recipe
     private lateinit var cuisine: Cuisine
     private lateinit var recipeList: List<Recipe>
     private lateinit var answerLabelTextView: TextView
@@ -27,6 +33,16 @@ class RecipeActivity : AppCompatActivity() {
     private lateinit var showRecipeLayout: ViewGroup
     private lateinit var noRecipeLayout: ViewGroup
     private var currentRecipeIndex = 0
+    private val addRecipeResultLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+
+            // Display the added question, which will appear at end of list
+            currentRecipeIndex = recipeList.size
+
+            Toast.makeText(this, R.string.recipe_added, Toast.LENGTH_SHORT).show()
+        }
+    }
 
     companion object {
         const val EXTRA_CUISINE_ID = "com.zybooks.cookingrecipeapp.cuisine_id"
@@ -127,15 +143,45 @@ class RecipeActivity : AppCompatActivity() {
     }
 
     private fun addRecipe() {
-        // TODO: Add question
+        val intent = Intent(this, RecipeEditActivity::class.java)
+        intent.putExtra(EXTRA_CUISINE_ID, cuisine.id)
+        addRecipeResultLauncher.launch(intent)
+    }
+
+    private val editRecipeResultLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            Toast.makeText(this, R.string.recipe_updated, Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun editRecipe() {
-        // TODO: Edit question
+        if (currentRecipeIndex >= 0) {
+            val intent = Intent(this, RecipeEditActivity::class.java)
+            intent.putExtra(RecipeEditActivity.EXTRA_RECIPE_ID, recipeList[currentRecipeIndex].id)
+            editRecipeResultLauncher.launch(intent)
+        }
     }
 
     private fun deleteRecipe() {
-        // TODO: Delete question
+        if (currentRecipeIndex >= 0) {
+            val recipe = recipeList[currentRecipeIndex]
+            recipeListViewModel.deleteRecipe(recipe)
+
+            // Save question in case user wants to undo delete
+            deletedRecipe = recipe
+
+            // Show delete message with Undo button
+            val snackbar = Snackbar.make(
+                findViewById(R.id.coordinator_layout),
+                R.string.recipe_deleted, Snackbar.LENGTH_LONG
+            )
+            snackbar.setAction(R.string.undo) {
+                // Add question back
+                recipeListViewModel.addRecipe(deletedRecipe)
+            }
+            snackbar.show()
+        }
     }
 
     private fun showRecipe(recipeIndex: Int) {
