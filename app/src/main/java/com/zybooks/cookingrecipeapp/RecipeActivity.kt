@@ -1,5 +1,6 @@
 package com.zybooks.cookingrecipeapp
 
+import android.annotation.SuppressLint
 import com.google.android.material.snackbar.Snackbar
 import android.app.Activity
 import android.content.Intent
@@ -12,8 +13,10 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.graphics.drawable.toDrawable
 import com.zybooks.cookingrecipeapp.model.Recipe
 import com.zybooks.cookingrecipeapp.model.Cuisine
 import com.zybooks.cookingrecipeapp.viewmodel.RecipeListViewModel
@@ -23,6 +26,9 @@ class RecipeActivity : AppCompatActivity() {
     private val recipeListViewModel: RecipeListViewModel by lazy {
         ViewModelProvider(this).get(RecipeListViewModel::class.java)
     }
+
+    private lateinit var answerBackgroundView: ImageView
+
     private lateinit var deletedRecipe: Recipe
     private lateinit var cuisine: Cuisine
     private lateinit var recipeList: List<Recipe>
@@ -49,6 +55,7 @@ class RecipeActivity : AppCompatActivity() {
         const val EXTRA_CUISINE_TEXT = "com.zybooks.cookingrecipeapp.cuisine_text"
     }
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recipe)
@@ -59,6 +66,7 @@ class RecipeActivity : AppCompatActivity() {
         answerButton = findViewById(R.id.answer_button)
         showRecipeLayout = findViewById(R.id.show_recipe_layout)
         noRecipeLayout = findViewById(R.id.no_recipe_layout)
+        answerBackgroundView = findViewById(R.id.answer_background_view)
 
         // Add click callbacks
         answerButton.setOnClickListener { toggleAnswerVisibility() }
@@ -213,10 +221,12 @@ class RecipeActivity : AppCompatActivity() {
             answerButton.setText(R.string.show_answer)
             answerTextView.visibility = View.INVISIBLE
             answerLabelTextView.visibility = View.INVISIBLE
+            answerBackgroundView.visibility = View.VISIBLE
         } else {
             answerButton.setText(R.string.hide_answer)
             answerTextView.visibility = View.VISIBLE
             answerLabelTextView.visibility = View.VISIBLE
+            answerBackgroundView.visibility = View.INVISIBLE
         }
     }
 }
