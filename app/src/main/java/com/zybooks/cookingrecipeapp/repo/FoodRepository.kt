@@ -30,6 +30,10 @@ class FoodRepository private constructor(context: Context) {
     private val cuisineDao = database.cuisineDao()
     private val recipeDao = database.recipeDao()
 
+    /*init {
+        addStarterData()
+    }*/
+
     fun getCuisine(cuisineId: Long): LiveData<Cuisine?> = cuisineDao.getCuisine(cuisineId)
 
     fun getCuisines(): LiveData<List<Cuisine>> = cuisineDao.getCuisines()
@@ -53,31 +57,31 @@ class FoodRepository private constructor(context: Context) {
     fun deleteRecipe(recipe: Recipe) = recipeDao.deleteRecipe(recipe)
 
     private fun addStarterData() {
-        var cuisineId = cuisineDao.addCuisine(Cuisine(text = "Math"))
+        var cuisineId = cuisineDao.addCuisine(Cuisine(text = "Pizza"))
         recipeDao.addRecipe(
             Recipe(
-                text = "What is 2 + 3?",
-                answer = "2 + 3 = 5",
+                text = "Cheese Pizza",
+                answer = "Pizza with Cheese",
                 cuisineId = cuisineId
             )
         )
         recipeDao.addRecipe(
             Recipe(
-                text = "What is pi?",
-                answer = "The ratio of a circle's circumference to its diameter.",
-                cuisineId = cuisineId
-            )
-        )
-
-        cuisineId = cuisineDao.addCuisine(Cuisine(text = "History"))
-        recipeDao.addRecipe(
-            Recipe(
-                text = "On what date was the U.S. Declaration of Independence adopted?",
-                answer = "July 4, 1776",
+                text = "Pepperoni Pizza",
+                answer = "Pizza with Cheese and Pepperoni",
                 cuisineId = cuisineId
             )
         )
 
-        cuisineDao.addCuisine(Cuisine(text = "Computing"))
+        cuisineId = cuisineDao.addCuisine(Cuisine(text = "Hamburger"))
+        recipeDao.addRecipe(
+            Recipe(
+                text = "Cheeseburger",
+                answer = "Hamburger with Cheese",
+                cuisineId = cuisineId
+            )
+        )
+
+        cuisineDao.addCuisine(Cuisine(text = "Chicken"))
     }
 }
