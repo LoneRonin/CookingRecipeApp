@@ -20,17 +20,17 @@
 
     <EditText
         android:id="@+id/recipe_edit_text"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        style="@style/QAEditText"
+        android:layout_width="395dp"
+        android:layout_height="126dp"
         android:hint="@string/recipe_hint"
         android:importantForAutofill="no"
         android:inputType="textMultiLine"
         android:maxLines="5"
-        style="@style/QAEditText"
-        app:layout_constraintTop_toTopOf="@id/recipe_label_text_view"
         app:layout_constraintBottom_toTopOf="@id/answer_edit_text"
         app:layout_constraintLeft_toRightOf="@id/recipe_label_text_view"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/recipe_label_text_view" />
 
     <TextView
         android:id="@+id/answer_label_text_view"
@@ -44,17 +44,31 @@
 
     <EditText
         android:id="@+id/answer_edit_text"
-        android:layout_width="0dp"
+        style="@style/QAEditText"
+        android:layout_width="400dp"
         android:layout_height="0dp"
         android:hint="@string/answer_hint"
         android:importantForAutofill="no"
         android:inputType="textMultiLine"
         android:maxLines="5"
-        style="@style/QAEditText"
-        app:layout_constraintTop_toBottomOf="@id/recipe_edit_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@id/answer_label_text_view"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recipe_edit_text" />
+
+    <EditText
+        android:id="@+id/steps_edit_text"
+        style="@style/QAEditText"
+        android:layout_width="400dp"
+        android:layout_height="200dp"
+        android:hint="@string/steps_hint"
+        android:importantForAutofill="no"
+        android:inputType="textMultiLine"
+        android:maxLines="5"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/answer_label_text_view"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recipe_edit_text" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/save_button"
