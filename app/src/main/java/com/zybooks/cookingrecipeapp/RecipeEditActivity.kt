@@ -1,5 +1,6 @@
 package com.zybooks.cookingrecipeapp
 
+import android.annotation.SuppressLint
 import androidx.lifecycle.ViewModelProvider
 import com.zybooks.cookingrecipeapp.viewmodel.RecipeDetailViewModel
 import android.os.Bundle
@@ -12,6 +13,7 @@ class RecipeEditActivity : AppCompatActivity() {
 
     private lateinit var recipeEditText: EditText
     private lateinit var answerEditText: EditText
+    private lateinit var stepsEditText: EditText
     private var recipeId = 0L
     private lateinit var recipe: Recipe
     private val recipeDetailViewModel: RecipeDetailViewModel by lazy {
@@ -22,12 +24,14 @@ class RecipeEditActivity : AppCompatActivity() {
         const val EXTRA_RECIPE_ID = "com.zybooks.cookingrecipeapp.recipe_id"
     }
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recipe_edit)
 
         recipeEditText = findViewById(R.id.recipe_edit_text)
         answerEditText = findViewById(R.id.answer_edit_text)
+        stepsEditText = findViewById(R.id.steps_edit_text)
 
         findViewById<FloatingActionButton>(R.id.save_button).setOnClickListener { saveButtonClick() }
 
@@ -56,11 +60,13 @@ class RecipeEditActivity : AppCompatActivity() {
     private fun updateUI() {
         recipeEditText.setText(recipe.text)
         answerEditText.setText(recipe.answer)
+        //stepsEditText.setText(recipe.steps)
     }
 
     private fun saveButtonClick() {
         recipe.text = recipeEditText.text.toString()
         recipe.answer = answerEditText.text.toString()
+        //recipe.steps = stepsEditText.text.toString()
 
         if (recipeId == -1L) {
             recipeDetailViewModel.addRecipe(recipe)
