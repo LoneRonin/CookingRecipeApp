@@ -20,4 +20,7 @@ interface RecipeDao {
 
     @Delete
     fun deleteRecipe(recipe: Recipe)
+
+    @Query("SELECT * FROM Recipe")
+    fun getAllRecipes(): List<Recipe>
 }

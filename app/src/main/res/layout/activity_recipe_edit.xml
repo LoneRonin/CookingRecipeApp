@@ -21,7 +21,7 @@
     <EditText
         android:id="@+id/recipe_edit_text"
         style="@style/QAEditText"
-        android:layout_width="395dp"
+        android:layout_width="380dp"
         android:layout_height="126dp"
         android:hint="@string/recipe_hint"
         android:importantForAutofill="no"
@@ -45,7 +45,7 @@
     <EditText
         android:id="@+id/answer_edit_text"
         style="@style/QAEditText"
-        android:layout_width="400dp"
+        android:layout_width="380dp"
         android:layout_height="0dp"
         android:hint="@string/answer_hint"
         android:importantForAutofill="no"

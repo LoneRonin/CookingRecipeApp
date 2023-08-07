@@ -79,13 +79,13 @@ class RecipeActivity : AppCompatActivity() {
         recipeListViewModel.loadRecipes(cuisineId)
         recipeListViewModel.recipeListLiveData.observe(
             this, { recipeList ->
-                this.recipeList = recipeList
-                updateUI()
+                updateUI(recipeList)
             })
         //recipeList = recipeListViewModel.getRecipes(cuisineId)
     }
 
-    private fun updateUI() {
+    private fun updateUI(recipeList: List<Recipe>) {
+        this.recipeList = recipeList
         showRecipe(currentRecipeIndex)
 
         if (recipeList.isEmpty()) {

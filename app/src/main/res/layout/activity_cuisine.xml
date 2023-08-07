@@ -9,8 +9,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/chef">
-    </ImageView>
+        android:background="@drawable/chef"></ImageView>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/cuisine_recycler_view"

@@ -6,4 +6,9 @@
         android:icon="@drawable/settings"
         android:title="@string/settings"
         app:showAsAction="ifRoom"/>
+
+    <item android:id="@+id/search"
+        android:icon="@drawable/search"
+        android:title="@string/search_recipes"
+        app:showAsAction="ifRoom"/>
 </menu>

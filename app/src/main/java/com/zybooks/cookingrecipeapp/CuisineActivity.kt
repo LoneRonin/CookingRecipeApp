@@ -88,6 +88,12 @@ class CuisineActivity : AppCompatActivity(),
             return true
         }
 
+        if (item.itemId == R.id.search) {
+            val intent = Intent(this, SearchActivity::class.java)
+            startActivity(intent)
+            return true
+        }
+
         return super.onOptionsItemSelected(item)
     }
 
