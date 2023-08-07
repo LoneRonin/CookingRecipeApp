@@ -1,6 +1,5 @@
 package com.zybooks.cookingrecipeapp
 
-import android.annotation.SuppressLint
 import com.google.android.material.snackbar.Snackbar
 import android.app.Activity
 import android.content.Intent
@@ -53,7 +52,6 @@ class RecipeActivity : AppCompatActivity() {
         const val EXTRA_CUISINE_TEXT = "com.zybooks.cookingrecipeapp.cuisine_text"
     }
 
-    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recipe)
@@ -209,7 +207,7 @@ class RecipeActivity : AppCompatActivity() {
             val recipe = recipeList[currentRecipeIndex]
             recipeTextView.text = recipe.text
             answerTextView.text = recipe.answer
-            //stepsTextView.text = recipe.steps
+            stepsTextView.text = recipe.steps
         } else {
             // No questions yet
             currentRecipeIndex = -1
