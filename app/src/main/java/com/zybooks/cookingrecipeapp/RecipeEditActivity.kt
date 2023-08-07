@@ -1,6 +1,5 @@
 package com.zybooks.cookingrecipeapp
 
-import android.annotation.SuppressLint
 import androidx.lifecycle.ViewModelProvider
 import com.zybooks.cookingrecipeapp.viewmodel.RecipeDetailViewModel
 import android.os.Bundle
@@ -24,7 +23,6 @@ class RecipeEditActivity : AppCompatActivity() {
         const val EXTRA_RECIPE_ID = "com.zybooks.cookingrecipeapp.recipe_id"
     }
 
-    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recipe_edit)
@@ -60,13 +58,13 @@ class RecipeEditActivity : AppCompatActivity() {
     private fun updateUI() {
         recipeEditText.setText(recipe.text)
         answerEditText.setText(recipe.answer)
-        //stepsEditText.setText(recipe.steps)
+        stepsEditText.setText(recipe.steps)
     }
 
     private fun saveButtonClick() {
         recipe.text = recipeEditText.text.toString()
         recipe.answer = answerEditText.text.toString()
-        //recipe.steps = stepsEditText.text.toString()
+        recipe.steps = stepsEditText.text.toString()
 
         if (recipeId == -1L) {
             recipeDetailViewModel.addRecipe(recipe)
