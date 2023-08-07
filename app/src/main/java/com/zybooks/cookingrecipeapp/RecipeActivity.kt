@@ -13,10 +13,8 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.graphics.drawable.toDrawable
 import com.zybooks.cookingrecipeapp.model.Recipe
 import com.zybooks.cookingrecipeapp.model.Cuisine
 import com.zybooks.cookingrecipeapp.viewmodel.RecipeListViewModel
@@ -27,7 +25,7 @@ class RecipeActivity : AppCompatActivity() {
         ViewModelProvider(this).get(RecipeListViewModel::class.java)
     }
 
-    private lateinit var answerBackgroundView: ImageView
+    private lateinit var stepsTextView: TextView
 
     private lateinit var deletedRecipe: Recipe
     private lateinit var cuisine: Cuisine
@@ -60,13 +58,14 @@ class RecipeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recipe)
 
+        stepsTextView = findViewById(R.id.steps_text_view)
+
         recipeTextView = findViewById(R.id.recipe_text_view)
         answerLabelTextView = findViewById(R.id.answer_label_text_view)
         answerTextView = findViewById(R.id.answer_text_view)
         answerButton = findViewById(R.id.answer_button)
         showRecipeLayout = findViewById(R.id.show_recipe_layout)
         noRecipeLayout = findViewById(R.id.no_recipe_layout)
-        answerBackgroundView = findViewById(R.id.answer_background_view)
 
         // Add click callbacks
         answerButton.setOnClickListener { toggleAnswerVisibility() }
@@ -210,6 +209,7 @@ class RecipeActivity : AppCompatActivity() {
             val recipe = recipeList[currentRecipeIndex]
             recipeTextView.text = recipe.text
             answerTextView.text = recipe.answer
+            //stepsTextView.text = recipe.steps
         } else {
             // No questions yet
             currentRecipeIndex = -1
@@ -221,12 +221,12 @@ class RecipeActivity : AppCompatActivity() {
             answerButton.setText(R.string.show_answer)
             answerTextView.visibility = View.INVISIBLE
             answerLabelTextView.visibility = View.INVISIBLE
-            answerBackgroundView.visibility = View.VISIBLE
+            stepsTextView.visibility = View.VISIBLE
         } else {
             answerButton.setText(R.string.hide_answer)
             answerTextView.visibility = View.VISIBLE
             answerLabelTextView.visibility = View.VISIBLE
-            answerBackgroundView.visibility = View.INVISIBLE
+            stepsTextView.visibility = View.INVISIBLE
         }
     }
 }
