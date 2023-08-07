@@ -1,5 +1,6 @@
 package com.zybooks.cookingrecipeapp.model
 
+import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
@@ -18,7 +19,7 @@ data class Recipe(
 
     var text: String = "",
     var answer: String = "",
-    //var steps: String = "",
+    var steps: String = "",
 
     @ColumnInfo(name = "cuisine_id")
     var cuisineId: Long = 0)
