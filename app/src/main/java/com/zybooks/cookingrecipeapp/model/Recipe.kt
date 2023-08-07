@@ -18,7 +18,7 @@ data class Recipe(
 
     var text: String = "",
     var answer: String = "",
+    //var steps: String = "",
 
     @ColumnInfo(name = "cuisine_id")
-    var cuisineId: Long = 0) {
-}
+    var cuisineId: Long = 0)
