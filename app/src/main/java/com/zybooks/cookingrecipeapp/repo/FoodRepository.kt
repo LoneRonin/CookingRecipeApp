@@ -83,5 +83,12 @@ class FoodRepository private constructor(context: Context) {
         )
 
         cuisineDao.addCuisine(Cuisine(text = "Chicken"))
+        recipeDao.addRecipe(
+            Recipe(
+                text = "Fried Chicken",
+                answer = "Fried Chicken",
+                cuisineId = cuisineId
+            )
+        )
     }
 }
