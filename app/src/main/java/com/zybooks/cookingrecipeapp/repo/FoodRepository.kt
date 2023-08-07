@@ -57,31 +57,42 @@ class FoodRepository private constructor(context: Context) {
     fun deleteRecipe(recipe: Recipe) = recipeDao.deleteRecipe(recipe)
 
     private fun addStarterData() {
-        var cuisineId = cuisineDao.addCuisine(Cuisine(text = "Pizza"))
+        var cuisineId = cuisineDao.addCuisine(Cuisine(text = "Pasta"))
         recipeDao.addRecipe(
             Recipe(
-                text = "Cheese Pizza",
-                answer = "Pizza with Cheese",
+                text = "Pesto Pasta",
+                answer = "Pasta, Onion, Oil, Pesto, Seasonings, and Cheese",
+                steps = "Boil pasta in water, cook onion in oil and stir pesto in pasta",
                 cuisineId = cuisineId
             )
         )
         recipeDao.addRecipe(
             Recipe(
-                text = "Pepperoni Pizza",
-                answer = "Pizza with Cheese and Pepperoni",
-                cuisineId = cuisineId
-            )
-        )
-
-        cuisineId = cuisineDao.addCuisine(Cuisine(text = "Hamburger"))
-        recipeDao.addRecipe(
-            Recipe(
-                text = "Cheeseburger",
-                answer = "Hamburger with Cheese",
+                text = "Chicken Pasta",
+                answer = "Pasta, Shredded Chicken, and Cheese",
+                steps = "Boil pasta in water, cook chicken and add into pasta with cheese",
                 cuisineId = cuisineId
             )
         )
 
-        cuisineDao.addCuisine(Cuisine(text = "Chicken"))
+        cuisineId = cuisineDao.addCuisine(Cuisine(text = "Sandwich"))
+        recipeDao.addRecipe(
+            Recipe(
+                text = "Peanut Butter and Jelly Sandwich",
+                answer = "Bread, Peanut Butter, and Jelly",
+                steps = "Spread peanut butter on one bread and jelly on the other and combine",
+                cuisineId = cuisineId
+            )
+        )
+
+        cuisineDao.addCuisine(Cuisine(text = "Rice"))
+        recipeDao.addRecipe(
+            Recipe(
+                text = "Fried Rice",
+                answer = "Rice, Egg, Meat of your choosing, and Soy Sauce",
+                steps = "Stir fry rice and add egg and meat after a minute or two, then add soy sauce",
+                cuisineId = cuisineId
+            )
+        )
     }
 }

@@ -12,6 +12,7 @@ class RecipeEditActivity : AppCompatActivity() {
 
     private lateinit var recipeEditText: EditText
     private lateinit var answerEditText: EditText
+    private lateinit var stepsEditText: EditText
     private var recipeId = 0L
     private lateinit var recipe: Recipe
     private val recipeDetailViewModel: RecipeDetailViewModel by lazy {
@@ -28,6 +29,7 @@ class RecipeEditActivity : AppCompatActivity() {
 
         recipeEditText = findViewById(R.id.recipe_edit_text)
         answerEditText = findViewById(R.id.answer_edit_text)
+        stepsEditText = findViewById(R.id.steps_edit_text)
 
         findViewById<FloatingActionButton>(R.id.save_button).setOnClickListener { saveButtonClick() }
 
@@ -56,11 +58,13 @@ class RecipeEditActivity : AppCompatActivity() {
     private fun updateUI() {
         recipeEditText.setText(recipe.text)
         answerEditText.setText(recipe.answer)
+        stepsEditText.setText(recipe.steps)
     }
 
     private fun saveButtonClick() {
         recipe.text = recipeEditText.text.toString()
         recipe.answer = answerEditText.text.toString()
+        recipe.steps = stepsEditText.text.toString()
 
         if (recipeId == -1L) {
             recipeDetailViewModel.addRecipe(recipe)

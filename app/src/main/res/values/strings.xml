@@ -4,9 +4,10 @@
     <string name="recipe_label"></string>
     <string name="recipe_hint">Recipe</string>
     <string name="answer_label"></string>
-    <string name="answer_hint">Recipe Description</string>
-    <string name="show_answer">Show Recipe Description</string>
-    <string name="hide_answer">Show Recipe Image</string>
+    <string name="answer_hint">Recipe Ingredients</string>
+    <string name="steps_hint">Recipe Steps</string>
+    <string name="show_answer">Show Recipe Ingredients</string>
+    <string name="hide_answer">Show Recipe Steps</string>
     <string name="previous">Previous</string>
     <string name="next">Next</string>
     <string name="add">Add</string>
