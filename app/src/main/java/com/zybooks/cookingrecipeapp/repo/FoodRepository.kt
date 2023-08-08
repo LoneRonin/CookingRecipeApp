@@ -85,12 +85,110 @@ class FoodRepository private constructor(context: Context) {
             )
         )
 
-        cuisineDao.addCuisine(Cuisine(text = "Rice"))
+        cuisineId = cuisineDao.addCuisine(Cuisine(text = "Rice"))
         recipeDao.addRecipe(
             Recipe(
                 text = "Fried Rice",
                 answer = "Rice, Egg, Meat of your choosing, and Soy Sauce",
                 steps = "Stir fry rice and add egg and meat after a minute or two, then add soy sauce",
+                cuisineId = cuisineId
+            )
+        )
+        recipeDao.addRecipe(
+            Recipe(
+                text = "Arroz Caldo",
+                answer = "Rice, Meat of your choosing, Seasoning, and Broth",
+                steps = "Boil rice in broth and add any meats and seasoning to boil",
+                cuisineId = cuisineId
+            )
+        )
+
+        cuisineId = cuisineDao.addCuisine(Cuisine(text = "Potato"))
+        recipeDao.addRecipe(
+            Recipe(
+                text = "Mashed Potato",
+                answer = "Potatoes, Salt, Pepper, and Butter",
+                steps = "Boil potatoes, strain, mash, and add salt, pepper, and butter",
+                cuisineId = cuisineId
+            )
+        )
+        recipeDao.addRecipe(
+            Recipe(
+                text = "French Fries",
+                answer = "Potatoes and Salt",
+                steps = "Peel Potato and cut into thin pieces, then put in fryer and add salt",
+                cuisineId = cuisineId
+            )
+        )
+
+        cuisineId = cuisineDao.addCuisine(Cuisine(text = "Milk Shake"))
+        recipeDao.addRecipe(
+            Recipe(
+                text = "Strawberry Shake",
+                answer = "Strawberries, Vanilla Ice Cream, and Milk",
+                steps = "Put all ingredients in a blender for 2-3 minutes",
+                cuisineId = cuisineId
+            )
+        )
+        recipeDao.addRecipe(
+            Recipe(
+                text = "Chocolate Shake",
+                answer = "Chocolate Ice Cream and Milk",
+                steps = "Put all ingredients in a blender for 2-3 minutes",
+                cuisineId = cuisineId
+            )
+        )
+
+        cuisineId = cuisineDao.addCuisine(Cuisine(text = "Chicken"))
+        recipeDao.addRecipe(
+            Recipe(
+                text = "Fried Chicken",
+                answer = "Chicken, Salt, and Pepper",
+                steps = "Season chicken and add to fryer",
+                cuisineId = cuisineId
+            )
+        )
+        recipeDao.addRecipe(
+            Recipe(
+                text = "Grilled Chicken",
+                answer = "Chicken, Salt, and Pepper",
+                steps = "Season chicken and add to grill",
+                cuisineId = cuisineId
+            )
+        )
+
+        cuisineId = cuisineDao.addCuisine(Cuisine(text = "Soup"))
+        recipeDao.addRecipe(
+            Recipe(
+                text = "Beef Soup",
+                answer = "Beef, Cabbage, String Beans, Plantain, and Corn",
+                steps = "Boil beef and add vegetables",
+                cuisineId = cuisineId
+            )
+        )
+        recipeDao.addRecipe(
+            Recipe(
+                text = "Sinigang",
+                answer = "Tamarind, Okra, Fish, and Bok Choy",
+                steps = "Boil Fish and add vegetables",
+                cuisineId = cuisineId
+            )
+        )
+
+        cuisineId = cuisineDao.addCuisine(Cuisine(text = "Hamburger"))
+        recipeDao.addRecipe(
+            Recipe(
+                text = "Cheeseburger",
+                answer = "Hanburger Buns, Beef Patty, and Cheese",
+                steps = "Grill beef patty in a grill, add cheese on top and put in hamburger buns",
+                cuisineId = cuisineId
+            )
+        )
+        recipeDao.addRecipe(
+            Recipe(
+                text = "Veggie Burger",
+                answer = "Lettuce, Peef Patty, Tomatoes, Onions",
+                steps = "Grill beef patty in a grill, add other ingredients and wrap in lettuce",
                 cuisineId = cuisineId
             )
         )
